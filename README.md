@@ -4,10 +4,22 @@ This is a prototype on how to implement authentication & encryption on Kafka wit
 
 ## Steps:
 
-1. Run `./scripts/create-certs.sh`
-
-2. Bring kafka cluster up `docker-compose up`
-3. Try to produce message
+1. Run:
 ```shell
-kaf
+./start.sh
+```
+
+2. Produce messages with:
+```shell
+./scripts/kcat-produce.sh 
+```
+
+3. Consume messages with:
+```shell
+./scripts/kcat-consume.sh 
+```
+
+4. Teardown with:
+```shell
+./stop.sh
 ```
