@@ -7,6 +7,9 @@ set -o nounset
 DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 SECRETS_PATH="$DIR/secrets"
 
+# This is needed so that relative path on scripts can be used
+cd "$DIR"
+
 root_cert_filepath="$SECRETS_PATH/root.crt"
 root_key_filepath="$SECRETS_PATH/root.key"
 password=relexsolutions
