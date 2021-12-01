@@ -1,6 +1,6 @@
 # Kafka-authentication
 
-This is a prototype on how to implement authentication & encryption on Kafka with SSL & SASL
+This is a prototype on how to use SSL encryption with Kafka
 
 ## Steps:
 
