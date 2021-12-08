@@ -15,11 +15,11 @@ root_key_filepath=$4
 keystore_filepath="$SECRETS_PATH/$service.keystore.jks"
 truststore_filepath="$SECRETS_PATH/$service.truststore.jks"
 csr_filepath="$SECRETS_PATH/$service.csr"
-signed_cert_filepath="$SECRETS_PATH/$service-ca1-signed.crt"
+signed_cert_filepath="$SECRETS_PATH/$service-signed.crt"
 serial_filepath="$SECRETS_PATH/$service.srl"
 
 echo "Creating KeyStore & TrustStore for $service"
-# Create keystores
+# Create keystore.jks
 keytool -genkey -noprompt \
   -alias "$service" \
   -dname "CN=$service.test.confluent.io, OU=TEST, O=CONFLUENT, L=PaloAlto, S=Ca, C=US" \
@@ -28,7 +28,8 @@ keytool -genkey -noprompt \
   -storepass "$password" \
   -keypass "$password"
 
-# Create CSR, sign the key and import back into keystore
+# Create certificate signing request (CSR), sign the key and import back into keystore
+# Create .csr
 keytool -noprompt \
   -keystore "$keystore_filepath" \
   -alias "$service" \
@@ -37,6 +38,7 @@ keytool -noprompt \
   -storepass "$password" \
   -keypass "$password"
 
+# Create .srl & signed.crt
 openssl x509 \
   -req \
   -CA "$root_cert_filepath" \
@@ -48,6 +50,7 @@ openssl x509 \
   -days 9999 \
   -passin pass:"$password"
 
+# Import root.crt to keystore
 keytool -noprompt \
   -keystore "$keystore_filepath" \
   -alias CARoot \
@@ -56,6 +59,7 @@ keytool -noprompt \
   -storepass "$password" \
   -keypass "$password"
 
+# Import signed.crt to keystore
 keytool -noprompt \
   -keystore "$keystore_filepath" \
   -alias "$service" \

@@ -9,5 +9,4 @@ if [[ ! -f "scripts/secrets/root.crt" ]]; then
   cd "$DIR/scripts" && ./create-certs.sh
 fi
 
-echo
 docker-compose up -d
